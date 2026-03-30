@@ -1,19 +1,51 @@
-# No longer updated!
-This plugin is not maintained anymore. I am no longer working on bukkit and spigot plugins.
-If you need it updated, contact me directly, or update it yourself. 
-The current code in this state should continue working even with Minecraft 1.13 and up, until spigot breaks backwards compatibility again.
+# 173generator (Minecraft Beta 1.7.3 terrain for Spigot/PaperSpigot 1.8.8-1.8.9)
 
-## Beta 1.7.3 world generator
-This plugin generates beta 1.7.3 terrain.
+`173generator` recreates Minecraft Beta 1.7.3-style overworld terrain on legacy Bukkit-family servers.
 
-[Bukkit dev page](http://dev.bukkit.org/server-mods/b173gen/)
+## Target platform
 
-### Usage
+- **Minecraft server API:** Spigot/PaperSpigot `1.8.8-1.8.9`
+- **Java runtime:** **Java 8**
+- **Build tool:** Maven
 
-Use it like any other generator To use it without a multi-world plugin, append this to your bukkit.yml:
+## Build
+
+```bash
+mvn clean package
+```
+
+The plugin jar is produced in `target/` as:
+
+- `b173gen-2.5-MC1.8.9.jar`
+
+## Install and use
+
+1. Copy the jar into your server `plugins/` directory.
+2. Start the server once to generate default configs.
+3. Configure world generator usage in `bukkit.yml`:
+
 ```yaml
 worlds:
-     world_name:
-          generator: 173generator
+  world_name:
+    generator: 173generator
 ```
-To use it with a multi-world plugin, follow the instructions for that plugin.
+
+Or use your multiworld plugin's custom-generator syntax.
+
+## Notes on behavior
+
+- Terrain, caves, ores, vegetation, and biome mapping are intentionally kept close to the Beta 1.7.3 behavior implemented by this project.
+- The generator is designed for legacy world height (`128`) and legacy material names/API used in 1.8-era servers.
+
+## Modernization and hardening highlights
+
+- Build/dependency setup cleaned up for Java 8 + Spigot 1.8.8 API.
+- Removed obsolete/dead Maven metadata and non-reproducible plugin setup.
+- Added stronger defensive checks around config/command/populator state handling.
+- Small low-overhead runtime optimizations in chunk generation paths.
+
+## Known limitations
+
+- This project targets legacy API behavior and is **not** intended for 1.13+ flattened-material servers.
+- `/reload` is still unsupported (full restart recommended) due to generator lifecycle assumptions.
+- Legacy repository test fixtures are not part of the default packaging pipeline (`maven.test.skip=true`) because they target newer Bukkit API surfaces than 1.8.x.

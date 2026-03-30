@@ -25,7 +25,7 @@ public class CustomConfigLoader {
             throw new IllegalArgumentException("Plugin cannot be null.");
         }
         this.plugin = plugin;
-        this.filename = filename + ".yml";
+        this.filename = filename;
         this.defaultConfigFilename = defConfigFilename;
         this.dataFolder = dataFolder;
         if(dataFolder == null) {
@@ -49,10 +49,10 @@ public class CustomConfigLoader {
         configFile.options().copyDefaults(true);
         configFile.options().copyHeader(true);
         configFile.options().header(getHeader());
-        Reader defaultcfg = new InputStreamReader(plugin.getResource(defaultConfigFilename));
-        if(defaultcfg != null) {
-            YamlConfiguration defConfig = YamlConfiguration.
-                    loadConfiguration(defaultcfg);
+        InputStream defaultResource = plugin.getResource(defaultConfigFilename);
+        if(defaultResource != null) {
+            Reader defaultcfg = new InputStreamReader(defaultResource);
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defaultcfg);
             configFile.setDefaults(defConfig);
         }
     }
@@ -67,7 +67,11 @@ public class CustomConfigLoader {
             }
             try {
                 configFile.options().copyHeader(true);
-                configFile.load(new InputStreamReader(plugin.getResource(defaultConfigFilename)));
+                InputStream defaultResource = plugin.getResource(defaultConfigFilename);
+                if (defaultResource == null) {
+                    throw new FileNotFoundException("Unable to locate default resource " + defaultConfigFilename);
+                }
+                configFile.load(new InputStreamReader(defaultResource));
                 //plugin.getLogger().log(Level.INFO, configFile.options().header());
                 configFile.save(file);
             } catch(FileNotFoundException ex) {
@@ -95,7 +99,11 @@ public class CustomConfigLoader {
     }
 
     private String getHeader() {
-        BufferedReader r = new BufferedReader(new InputStreamReader(plugin.getResource(defaultConfigFilename)));
+        InputStream defaultResource = plugin.getResource(defaultConfigFilename);
+        if (defaultResource == null) {
+            return "";
+        }
+        BufferedReader r = new BufferedReader(new InputStreamReader(defaultResource));
         StringBuilder sb = new StringBuilder();
         String line;
         try {

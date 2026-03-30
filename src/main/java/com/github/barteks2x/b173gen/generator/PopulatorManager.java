@@ -37,7 +37,7 @@ public class PopulatorManager {
 
     private NoiseGeneratorOctaves3D treeNoise;
 
-    private List<BlockPopulator> populators = new ArrayList<>();
+    private final List<BlockPopulator> populators = new ArrayList<BlockPopulator>();
 
     public PopulatorManager(World world, WorldChunkManagerOld wcm, WorldConfig config) {
 
@@ -134,7 +134,7 @@ public class PopulatorManager {
     }
 
     private PopulatorState primaryState = null;
-    private Set<PopulatorState> allStates = new HashSet<PopulatorState>();
+    private final Set<PopulatorState> allStates = new HashSet<PopulatorState>();
 
     void createStateFor(int chunkX, int chunkZ) {
         this.primaryState = PopulatorState.forChunk(this.world, this.wcm, chunkX, chunkZ);
@@ -145,8 +145,12 @@ public class PopulatorManager {
     }
 
     void destroyStateFor(int chunkX, int chunkZ) {
+        if (primaryState == null) {
+            throw new IllegalStateException("No active primary populator state for chunk " + chunkX + ", " + chunkZ);
+        }
         if (primaryState.isChunk(chunkX, chunkZ)) {
             allStates.remove(primaryState);
+            primaryState = null;
             return;
         }
         Iterator<PopulatorState> it = allStates.iterator();
@@ -160,7 +164,7 @@ public class PopulatorManager {
     }
 
     PopulatorState getStateFor(int chunkX, int chunkZ) {
-        if (primaryState.isChunk(chunkX, chunkZ)) {
+        if (primaryState != null && primaryState.isChunk(chunkX, chunkZ)) {
             return primaryState;
         }
         for (PopulatorState state : allStates) {

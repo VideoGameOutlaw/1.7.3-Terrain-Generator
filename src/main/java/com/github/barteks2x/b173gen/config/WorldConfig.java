@@ -13,7 +13,7 @@ public class WorldConfig {
     public JavaPlugin plugin;
     public ChunkProviderGenerate chunkProvider;
     public boolean isInit = false;
-    public String eyeOfEnderMsg;
+    public String eyeOfEnderMsg = "You can't use Eye of Ender in this world!";
     public boolean 
             oldTreeGrowing = true,
             generateEmerald = false, 
@@ -39,11 +39,11 @@ public class WorldConfig {
         try {
             FileConfiguration config = cfgLoader.getConfig();
             cfgLoader.saveDefaultConfig();
-            generateEmerald = config.getBoolean("newFeatures.ores.emeralds");
-            oldTreeGrowing = config.getBoolean("other.oldTreeGrowing");
-            nofarlands = config.getBoolean("other.noFarlands");
-            eyeOfEnderMsg = config.getString("messages.eyeOfEnderMsg");
-            noswamps = config.getBoolean("biomes.noswamps");
+            generateEmerald = config.getBoolean("newFeatures.ores.emeralds", generateEmerald);
+            oldTreeGrowing = config.getBoolean("other.oldTreeGrowing", oldTreeGrowing);
+            nofarlands = config.getBoolean("other.noFarlands", nofarlands);
+            eyeOfEnderMsg = config.getString("messages.eyeOfEnderMsg", eyeOfEnderMsg);
+            noswamps = config.getBoolean("biomes.noswamps", noswamps);
             cfgLoader.saveConfig();
             return true;
         } catch(Exception ex) {

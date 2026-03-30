@@ -18,6 +18,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,7 +27,7 @@ public class Generator extends JavaPlugin {
 
 	public static Logger log;
 
-	private HashMap<String, WorldConfig> worlds;
+	private Map<String, WorldConfig> worlds;
 	private Beta173GenListener listener;
 	private VersionTracker vTracker;
 
@@ -52,6 +54,11 @@ public class Generator extends JavaPlugin {
 		BiomeOld.init(this.getConfig());
 		listener = new Beta173GenListener(this);
 		this.registerEvents();
+		if (this.getCommand("173generator") == null) {
+			logger().severe("Command '173generator' is not defined in plugin.yml, disabling plugin.");
+			this.getServer().getPluginManager().disablePlugin(this);
+			return;
+		}
 		this.getCommand("173generator").setExecutor(this);
 		vTracker = new VersionTracker(this);
 		vTracker.init();
@@ -59,10 +66,16 @@ public class Generator extends JavaPlugin {
 
 	@Override
 	public ChunkProviderGenerate getDefaultWorldGenerator(String worldName, String id) {
-		if (!worlds.containsKey(worldName.trim())) {
-			loadWorldConfig(worldName.trim());
+		if (worldName == null) {
+			logger().warning("World name was null while requesting default world generator.");
+			return null;
 		}
-		return worlds.get(worldName.trim()).chunkProvider;
+		final String worldKey = worldName.trim();
+		if (!worlds.containsKey(worldKey)) {
+			loadWorldConfig(worldKey);
+		}
+		WorldConfig cfg = worlds.get(worldKey);
+		return cfg == null ? null : cfg.chunkProvider;
 	}
 
 	public void initWorld(World world) {
@@ -103,9 +116,10 @@ public class Generator extends JavaPlugin {
 			World world = null;
 			String tickMillis = "10";
 			for (int i = 1; i < args.length; i++) {
-				if (args[i].toLowerCase().startsWith("world=")) {
+				String normalizedArg = args[i].toLowerCase(Locale.ENGLISH);
+				if (normalizedArg.startsWith("world=")) {
 					world = this.getServer().getWorld(args[i].substring("world=".length()));
-				} else if (args[i].toLowerCase().startsWith("maxtickmillis=")) {
+				} else if (normalizedArg.startsWith("maxtickmillis=")) {
 					tickMillis = args[i].substring("maxtickmillis=".length());
 				} else {
 					sender.sendMessage("Unknown command argument: " + args[i]);
@@ -153,7 +167,9 @@ public class Generator extends JavaPlugin {
 		name = name.trim();
 		WorldConfig config = new WorldConfig(this, name);
 		worlds.put(name, config);
-		config.loadConfig();
+		if (!config.loadConfig()) {
+			logger().warning("Using fallback defaults for world config: " + name);
+		}
 		config.chunkProvider = new ChunkProviderGenerate(config, this);
 		return config;
 	}

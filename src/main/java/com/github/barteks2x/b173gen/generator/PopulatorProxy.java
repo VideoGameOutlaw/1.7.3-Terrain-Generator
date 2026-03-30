@@ -8,11 +8,12 @@ import java.util.Random;
 
 public class PopulatorProxy extends BlockPopulator {
 
-    private int lastKnownX = Integer.MIN_VALUE, lastKnownZ = Integer.MAX_VALUE;
+    private int lastKnownX = Integer.MIN_VALUE;
+    private int lastKnownZ = Integer.MAX_VALUE;
 
     protected final PopulatorManager stateManager;
-    private IPopulator populator;
-    private String name;
+    private final IPopulator populator;
+    private final String name;
 
     public PopulatorProxy(PopulatorManager stateManager, IPopulator populator, String name) {
         this.stateManager = stateManager;
