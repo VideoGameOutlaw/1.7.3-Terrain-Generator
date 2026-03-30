@@ -22,6 +22,9 @@ import java.util.Random;
 import static org.bukkit.Material.*;
 
 public class ChunkProviderGenerate extends ChunkGenerator {
+    private static final int WORLD_HEIGHT = 128;
+    private static final int SEA_LEVEL = 64;
+
     private Random rand;
     private NoiseGeneratorOctaves3D noiseGen1;
     private NoiseGeneratorOctaves3D noiseGen2;
@@ -108,13 +111,13 @@ public class ChunkProviderGenerate extends ChunkGenerator {
     }
 
     public void initRand(int chunkX, int chunkZ) {
-        this.rand.setSeed(chunkX * 341873128712L + chunkZ * 132897987541L);
+        this.rand.setSeed((long) chunkX * 341873128712L + (long) chunkZ * 132897987541L);
     }
 
     public void generateTerrain(int x, int z, ChunkData terrain) {
         double temperatures[] = this.wcm.temperatures;
         byte byte0 = 4;
-        byte oceanHeight = 64;
+        final int oceanHeight = SEA_LEVEL;
         int k = byte0 + 1;
         byte b2 = 17;
         int l = byte0 + 1;
@@ -147,8 +150,9 @@ public class ChunkProviderGenerate extends ChunkGenerator {
                             for(int k2 = 0; k2 < 4; k2++) {
                                 double d17 = temperatures[(xPiece * 4 + i2) * 16 + (zPiece * 4 + k2)];
                                 Material block = AIR;
-                                if(yPiece * 8 + l1 < oceanHeight) {
-                                    if(d17 < 0.5D && yPiece * 8 + l1 >= oceanHeight - 1) {
+                                final int yLevel = yPiece * 8 + l1;
+                                if(yLevel < oceanHeight) {
+                                    if(d17 < 0.5D && yLevel >= oceanHeight - 1) {
                                         block = ICE;
                                     } else {
                                         block = STATIONARY_WATER;
@@ -181,7 +185,7 @@ public class ChunkProviderGenerate extends ChunkGenerator {
 
     public void replaceBlocksForBiome(int xPos, int zPos, ChunkData terrain, BetaBiome biomes[]) {
         //NOTE: in get/set block X and Z coordinates are swapped, THIS IS CORRECT
-        byte oceanHeight = 64;
+        final int oceanHeight = SEA_LEVEL;
         double d = 0.03125D;
         sandNoise = noiseGen4.generateNoiseArray(sandNoise, xPos * 16, zPos * 16, 0.0D, 16, 16, 1, d, d, 1.0D);
         gravelNoise = noiseGen4.generateNoiseArray(gravelNoise, xPos * 16, 109.0134D, zPos * 16, 16, 1, 16, d, 1.0D, d);
@@ -195,7 +199,7 @@ public class ChunkProviderGenerate extends ChunkGenerator {
                 int prevDepth = -1;
                 Material topBlock = BiomeOld.top(biome);
                 Material fillerBlock = BiomeOld.filler(biome);
-                for(int y = 127; y >= 0; y--) {
+                for(int y = WORLD_HEIGHT - 1; y >= 0; y--) {
                     if(y <= 0 + rand.nextInt(5)) {
                         terrain.setBlock(z, y, x, BEDROCK);
                         continue;
@@ -259,7 +263,7 @@ public class ChunkProviderGenerate extends ChunkGenerator {
         this.plugin.initWorld(w);
         int y;
 
-        for(y = 63; !w.getBlockAt(x, y + 1, z).isEmpty(); ++y) {
+        for(y = SEA_LEVEL - 1; y + 1 < WORLD_HEIGHT && !w.getBlockAt(x, y + 1, z).isEmpty(); ++y) {
         }
 
         return w.getBlockAt(x, y, z).getType() == Material.SAND;
@@ -280,9 +284,8 @@ public class ChunkProviderGenerate extends ChunkGenerator {
 
     @Override
     public String toString() {
-        return new StringBuilder(plugin.getDescription().getName()).append(" ").append(
-                plugin.getDescription().getVersion()).append(" world: ").append(world.getName()).
-                toString();
+        String worldName = world == null ? "<uninitialized>" : world.getName();
+        return plugin.getDescription().getName() + " " + plugin.getDescription().getVersion() + " world: " + worldName;
     }
 
     private double[] initNoiseField(double array[], int xPos, int yPos, int zPos, int xSize, int ySize, int zSize) {

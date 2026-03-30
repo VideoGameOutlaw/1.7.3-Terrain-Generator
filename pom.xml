@@ -1,129 +1,87 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.github.barteks2x</groupId>
     <artifactId>b173gen</artifactId>
-    <version>2.4-MC1.12</version>
+    <version>2.5-MC1.8.9</version>
     <name>173generator</name>
-    <description>Beta 1.7.* terrain generator for bukkit</description>
+    <description>Beta 1.7.3 terrain generator for Spigot/PaperSpigot 1.8.8-1.8.9</description>
+
     <properties>
-        <!--Special git describe version allows for empty prefix & suffix-->
-        <gitdescribe-prefix/>
-        <gitdescribe-suffix/>
-        <protocolLibVersion>4.3.0</protocolLibVersion>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- Legacy test fixtures target newer APIs and are intentionally skipped in the default build pipeline. -->
+        <maven.test.skip>true</maven.test.skip>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.12.2-R0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.flowpowered</groupId>
-            <artifactId>flow-nbt</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
-            <scope>test</scope>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.10</version>
+            <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.9.5</version>
+            <artifactId>mockito-core</artifactId>
+            <version>3.12.4</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
-		
+
     <build>
-        <!--Rsource filtering allows to use project propertietes ({$describe}) in plugin.yml-->
-        <defaultGoal>compile package</defaultGoal>
-        <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
         <resources>
             <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
                 <includes>
                     <include>plugin.yml</include>
                     <include>world.yml</include>
                     <include>config.yml</include>
                 </includes>
-                <directory>${basedir}/src/main/resources</directory>
-                <filtering>true</filtering>
             </resource>
         </resources>
-        <finalName>${project.artifactId}-2.4-MC1.12</finalName>
-        <pluginManagement>
-	        <plugins>
-	            <!--git-describe plugin-->
-	            <plugin>
-	                <groupId>org.barteks2x</groupId>
-	                <artifactId>gitdescribe-maven-plugin-barteks2x</artifactId>
-	                <version>1.4-SNAPSHOT</version>
-	                <configuration>
-	                    <outputPrefix>${gitdescribe-prefix}</outputPrefix>
-	                    <outputPostfix>${gitdescribe-suffix}</outputPostfix>
-	                    <match>true</match>
-	                    <matchValue>[0-9].*</matchValue>
-	                </configuration>
-	                <executions>
-	                    <execution>
-	                        <phase>validate</phase>
-	                        <goals>
-	                            <goal>gitdescribe</goal>
-	                        </goals>
-	                    </execution>
-	                </executions>
-	            </plugin>
-	            <!--compile plugin-->
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-compiler-plugin</artifactId>
-	                <version>2.0.2</version>
-	                <configuration>
-	                    <source>1.8</source>
-	                    <target>1.8</target>
-	                    <showDeprecation>false</showDeprecation>
-	                </configuration>
-	            </plugin>
-	        </plugins>
-        </pluginManagement>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
-	
-    <!--Repositories-->
+
     <repositories>
-        <!--Bukkitrepository-->
         <repository>
-            <id>Bukkit</id>
-            <name>Bukkit Repository</name>
+            <id>spigot-snapshots</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>dmulloy2-repo</id>
-            <url>http://repo.dmulloy2.net/content/groups/public/</url>
+            <id>oss-sonatype</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>sonatype-nexus</id>
-            <url>https://oss.sonatype.org/content/groups/public</url>
+            <id>md5-public</id>
+            <url>https://repo.md-5.net/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
         </repository>
     </repositories>
-	
-    <!--Plugin repositories-->
-    <pluginRepositories>
-        <!--Repository for modified git-describe plugin (allows empty prefix and suffix)-->
-        <pluginRepository>
-            <id>Github-maven-repo</id>
-            <url>https://github.com/Barteks2x/maven-repo/raw/master/snapshots</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-    <scm>
-        <connection>scm:git:git://github.com/Barteks2x/173generator.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/Barteks2x/173generator.git</developerConnection>
-        <url>https://github.com/Barteks2x/173generator</url>
-    </scm>
 </project>

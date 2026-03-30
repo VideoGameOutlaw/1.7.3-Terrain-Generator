@@ -1,5 +1,5 @@
 name: ${name}
-version: 2.4-MC1.12
+version: ${version}
 description: ${description}
 authors: [Barteks2x]
 main: ${groupId}.${artifactId}.Generator
