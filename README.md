@@ -48,12 +48,11 @@ Or use your multiworld plugin's custom-generator syntax.
 - Terrain, caves, ores, vegetation, and biome mapping are intentionally kept close to the Beta 1.7.3 behavior implemented by this project.
 - The generator is designed for legacy world height (`128`) and legacy material names/API used in 1.8-era servers.
 
-## Modernization and hardening highlights
+## Requirements
 
-- Build/dependency setup cleaned up for Java 8 + Spigot 1.8.8 API.
-- Removed obsolete/dead Maven metadata and non-reproducible plugin setup.
-- Added stronger defensive checks around config/command/populator state handling.
-- Small low-overhead runtime optimizations in chunk generation paths.
+- Spigot or Paper **1.8.8–1.8.9**
+- **Java 8** for the server process
+- Do **not** use `/reload` after installing or changing generator settings (full restart required)
 
 ## Known limitations
 
