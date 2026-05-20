@@ -46,9 +46,8 @@ public class Beta173GenListener implements Listener {
     public void onStructureGrow(StructureGrowEvent event) {
         Location loc = event.getLocation();
         World world = loc.getWorld();
-        WorldConfig cfg;
-        if((cfg = plugin.getOrCreateWorldConfig(world.getName())) != null) {
-            if(cfg.oldTreeGrowing) {
+        WorldConfig cfg = plugin.getWorldConfig(world.getName());
+        if (cfg != null && cfg.oldTreeGrowing) {
                 //hack from b 1.7.3: temporarily set sapling block to air to allow tree to generate
                 BlockState prevState = loc.getBlock().getState();
                 loc.getBlock().setType(Material.AIR);
@@ -68,7 +67,6 @@ public class Beta173GenListener implements Listener {
                         }
                         break;
                 }
-            }
         }
     }
 
@@ -80,8 +78,8 @@ public class Beta173GenListener implements Listener {
         if(event.getItem().getType() == Material.EYE_OF_ENDER) {
             Player player = event.getPlayer();
             World world = player.getLocation().getWorld();
-            WorldConfig cfg;
-            if((cfg = plugin.getOrCreateWorldConfig(world.getName())) != null) {
+            WorldConfig cfg = plugin.getWorldConfig(world.getName());
+            if (cfg != null) {
                 event.setCancelled(true);
                 player.sendMessage(cfg.eyeOfEnderMsg);
             }

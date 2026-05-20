@@ -62,6 +62,11 @@ public class ChunkProviderGenerate extends ChunkGenerator {
     @Override
     public List<org.bukkit.generator.BlockPopulator> getDefaultPopulators(org.bukkit.World w) {
         plugin.initWorld(w);
+        if (populatorList == null) {
+            throw new IllegalStateException(
+                    "173generator is not initialized for world \"" + w.getName()
+                            + "\". Ensure bukkit.yml uses generator: 173generator and restart the server (do not use /reload).");
+        }
         return Collections.unmodifiableList(populatorList);
     }
 
@@ -90,6 +95,14 @@ public class ChunkProviderGenerate extends ChunkGenerator {
 
     @Override
     public ChunkData generateChunkData(World world, Random random, int chunkX, int chunkZ, BiomeGrid biomeGrid) {
+        if (wcm == null) {
+            plugin.initWorld(world);
+        }
+        if (wcm == null) {
+            throw new IllegalStateException(
+                    "173generator is not initialized for world \"" + world.getName()
+                            + "\". Ensure bukkit.yml uses generator: 173generator and restart the server (do not use /reload).");
+        }
         initRand(chunkX, chunkZ);
 
         ChunkData terrain = this.createChunkData(world);

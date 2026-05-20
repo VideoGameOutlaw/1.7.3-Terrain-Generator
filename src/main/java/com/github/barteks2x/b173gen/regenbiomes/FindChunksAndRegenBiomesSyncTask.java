@@ -132,6 +132,12 @@ class FindChunksAndRegenBiomesSyncTask extends BukkitRunnable {
             return false;
         }
         ChunkProviderGenerate gen = plugin.getDefaultWorldGenerator(world.getName(), null);
+        if (gen == null || gen.wcm == null) {
+            sender.sendMessage("World \"" + world.getName() + "\" is not initialized. It's most likely a result of using /reload or an error during initialization.");
+            this.status.successful = false;
+            this.cancelTask();
+            return false;
+        }
         int chunkX = c.getX();
         int chunkZ = c.getZ();
         boolean loadedBefore = world.isChunkLoaded(chunkX, chunkZ);

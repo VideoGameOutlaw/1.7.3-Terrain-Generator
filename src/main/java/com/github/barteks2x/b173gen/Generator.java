@@ -83,7 +83,10 @@ public class Generator extends JavaPlugin {
 			return;
 		}
 
-		WorldConfig worldSetting = getOrCreateWorldConfig(world.getName());
+		WorldConfig worldSetting = getWorldConfig(world.getName());
+		if (worldSetting == null) {
+			return;
+		}
 		if (worldSetting.isInit) {
 			return;
 		}
@@ -93,6 +96,14 @@ public class Generator extends JavaPlugin {
 		logger().log(Level.INFO, "{0} enabled for {1}, world seed: {2}",
 				new Object[] { this.getDescription().getName(), world.getName(), world.getSeed() });
 
+	}
+
+	public boolean isGeneratorWorld(String name) {
+		return worlds.containsKey(name.trim());
+	}
+
+	public WorldConfig getWorldConfig(String name) {
+		return worlds.get(name.trim());
 	}
 
 	public WorldConfig getOrCreateWorldConfig(String name) {

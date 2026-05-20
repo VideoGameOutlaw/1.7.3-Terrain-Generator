@@ -29,8 +29,6 @@ import static org.bukkit.Material.*;
  */
 public class PopulatorManager {
 
-    private static final Material EMERALD_ORE = Material.getMaterial("EMERALD_ORE");
-
     private final World world;
     private final WorldChunkManagerOld wcm;
     private final ISimpleWorld simpleWorld;

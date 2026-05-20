@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <!-- Legacy test fixtures target newer APIs and are intentionally skipped in the default build pipeline. -->
+        <!-- Tests are skipped by default; use -Prun-tests to run Beta terrain regression tests. -->
         <maven.test.skip>true</maven.test.skip>
     </properties>
 
@@ -34,6 +34,12 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>3.12.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.flowpowered</groupId>
+            <artifactId>flow-nbt</artifactId>
+            <version>1.0.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -63,6 +69,11 @@
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.2</version>
+            </plugin>
         </plugins>
     </build>
 
@@ -84,4 +95,13 @@
             <url>https://repo.maven.apache.org/maven2</url>
         </repository>
     </repositories>
+
+    <profiles>
+        <profile>
+            <id>run-tests</id>
+            <properties>
+                <maven.test.skip>false</maven.test.skip>
+            </properties>
+        </profile>
+    </profiles>
 </project>

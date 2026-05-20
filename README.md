@@ -18,6 +18,17 @@ The plugin jar is produced in `target/` as:
 
 - `b173gen-2.5-MC1.8.9.jar`
 
+## Tests
+
+Regression tests compare generated chunks against saved Beta 1.7.3 terrain fixtures. Initialize the fixture submodule, then run tests with the `run-tests` Maven profile:
+
+```bash
+git submodule update --init src/test/resources
+mvn test -Prun-tests
+```
+
+The default `mvn package` build skips tests for a faster packaging pipeline.
+
 ## Install and use
 
 1. Copy the jar into your server `plugins/` directory.
@@ -37,15 +48,14 @@ Or use your multiworld plugin's custom-generator syntax.
 - Terrain, caves, ores, vegetation, and biome mapping are intentionally kept close to the Beta 1.7.3 behavior implemented by this project.
 - The generator is designed for legacy world height (`128`) and legacy material names/API used in 1.8-era servers.
 
-## Modernization and hardening highlights
+## Requirements
 
-- Build/dependency setup cleaned up for Java 8 + Spigot 1.8.8 API.
-- Removed obsolete/dead Maven metadata and non-reproducible plugin setup.
-- Added stronger defensive checks around config/command/populator state handling.
-- Small low-overhead runtime optimizations in chunk generation paths.
+- Spigot or Paper **1.8.8–1.8.9**
+- **Java 8** for the server process
+- Do **not** use `/reload` after installing or changing generator settings (full restart required)
 
 ## Known limitations
 
 - This project targets legacy API behavior and is **not** intended for 1.13+ flattened-material servers.
 - `/reload` is still unsupported (full restart recommended) due to generator lifecycle assumptions.
-- Legacy repository test fixtures are not part of the default packaging pipeline (`maven.test.skip=true`) because they target newer Bukkit API surfaces than 1.8.x.
+- Regression tests are skipped by default (`maven.test.skip=true`); use `-Prun-tests` to run them (see **Tests** above).
