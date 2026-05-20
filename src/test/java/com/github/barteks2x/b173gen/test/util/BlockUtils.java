@@ -207,27 +207,6 @@ public class BlockUtils {
         opacityMap.put(Material.JUNGLE_DOOR, 0);
         opacityMap.put(Material.ACACIA_DOOR, 0);
         opacityMap.put(Material.DARK_OAK_DOOR, 0);
-        opacityMap.put(Material.END_ROD, 0);
-        opacityMap.put(Material.CHORUS_PLANT, 0);
-        opacityMap.put(Material.CHORUS_FLOWER, 0);
-        opacityMap.put(Material.PURPUR_BLOCK, 255);
-        opacityMap.put(Material.PURPUR_PILLAR, 255);
-        opacityMap.put(Material.PURPUR_STAIRS, 255);
-        opacityMap.put(Material.PURPUR_DOUBLE_SLAB, 255);
-        opacityMap.put(Material.PURPUR_SLAB, 255);
-        opacityMap.put(Material.END_BRICKS, 255);
-        opacityMap.put(Material.BEETROOT_BLOCK, 0);
-        opacityMap.put(Material.GRASS_PATH, 255);
-        opacityMap.put(Material.END_GATEWAY, 0);
-        opacityMap.put(Material.COMMAND_REPEATING, 255);
-        opacityMap.put(Material.COMMAND_CHAIN, 255);
-        opacityMap.put(Material.FROSTED_ICE, 3);
-        opacityMap.put(Material.MAGMA, 255);
-        opacityMap.put(Material.NETHER_WART_BLOCK, 255);
-        opacityMap.put(Material.RED_NETHER_BRICK, 255);
-        opacityMap.put(Material.BONE_BLOCK, 255);
-        opacityMap.put(Material.STRUCTURE_VOID, 0);
-        opacityMap.put(Material.STRUCTURE_BLOCK, 255);
     }
     public static int getOpacity(Material material) {
         return opacityMap.get(material);

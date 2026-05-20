@@ -9,9 +9,7 @@ import org.bukkit.Difficulty;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.SoundCategory;
 import org.bukkit.TreeType;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
@@ -32,7 +30,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.util.Consumer;
+import org.bukkit.entity.CreatureType;
 import org.bukkit.util.Vector;
 
 import java.io.File;
@@ -235,11 +233,6 @@ public class BukkitWorldStub implements World {
     }
 
     @Override
-    public <T extends Arrow> T spawnArrow(Location location, Vector vector, float v, float v1, Class<T> aClass) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public boolean generateTree(Location location, TreeType treeType) {
         throw new UnsupportedOperationException();
     }
@@ -251,6 +244,16 @@ public class BukkitWorldStub implements World {
 
     @Override
     public Entity spawnEntity(Location location, EntityType entityType) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public LivingEntity spawnCreature(Location location, CreatureType creatureType) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public LivingEntity spawnCreature(Location location, EntityType entityType) {
         throw new UnsupportedOperationException();
     }
 
@@ -306,11 +309,6 @@ public class BukkitWorldStub implements World {
 
     @Override
     public Location getSpawnLocation() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean setSpawnLocation(Location location) {
         throw new UnsupportedOperationException();
     }
 
@@ -630,11 +628,6 @@ public class BukkitWorldStub implements World {
     }
 
     @Override
-    public void playSound(Location location, String s, float v, float v1) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public String[] getGameRules() {
         throw new UnsupportedOperationException();
     }
@@ -656,66 +649,6 @@ public class BukkitWorldStub implements World {
 
     @Override
     public WorldBorder getWorldBorder() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void spawnParticle(Particle particle, Location location, int i) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void spawnParticle(Particle particle, double v, double v1, double v2, int i) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public <T> void spawnParticle(Particle particle, Location location, int i, T t) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public <T> void spawnParticle(Particle particle, double v, double v1, double v2, int i, T t) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void spawnParticle(Particle particle, Location location, int i, double v, double v1, double v2) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void spawnParticle(Particle particle, double v, double v1, double v2, int i, double v3, double v4, double v5) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public <T> void spawnParticle(Particle particle, Location location, int i, double v, double v1, double v2, T t) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public <T> void spawnParticle(Particle particle, double v, double v1, double v2, int i, double v3, double v4, double v5, T t) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void spawnParticle(Particle particle, Location location, int i, double v, double v1, double v2, double v3) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void spawnParticle(Particle particle, double v, double v1, double v2, int i, double v3, double v4, double v5, double v6) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public <T> void spawnParticle(Particle particle, Location location, int i, double v, double v1, double v2, double v3, T t) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public <T> void spawnParticle(Particle particle, double v, double v1, double v2, int i, double v3, double v4, double v5, double v6, T t) {
         throw new UnsupportedOperationException();
     }
 
@@ -748,24 +681,4 @@ public class BukkitWorldStub implements World {
     public Set<String> getListeningPluginChannels() {
         throw new UnsupportedOperationException();
     }
-
-	@Override
-	public void playSound(Location arg0, Sound arg1, SoundCategory arg2, float arg3, float arg4) {
-        throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void playSound(Location arg0, String arg1, SoundCategory arg2, float arg3, float arg4) {
-        throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public <T extends Entity> T spawn(Location arg0, Class<T> arg1, Consumer<T> arg2) throws IllegalArgumentException {
-        throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public FallingBlock spawnFallingBlock(Location arg0, MaterialData arg1) throws IllegalArgumentException {
-        throw new UnsupportedOperationException();
-	}
 }

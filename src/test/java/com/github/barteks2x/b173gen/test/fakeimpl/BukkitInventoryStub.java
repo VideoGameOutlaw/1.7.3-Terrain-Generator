@@ -74,16 +74,6 @@ public class BukkitInventoryStub implements Inventory {
     }
 
     @Override
-    public ItemStack[] getStorageContents() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setStorageContents(ItemStack[] items) throws IllegalArgumentException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public boolean contains(int materialId) {
         throw new UnsupportedOperationException();
     }
@@ -205,11 +195,6 @@ public class BukkitInventoryStub implements Inventory {
 
     @Override
     public ListIterator<ItemStack> iterator(int index) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Location getLocation() {
         throw new UnsupportedOperationException();
     }
 

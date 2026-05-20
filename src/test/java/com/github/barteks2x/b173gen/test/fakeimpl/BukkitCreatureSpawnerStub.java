@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
+import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.EntityType;
 import org.bukkit.material.MaterialData;
 import org.bukkit.metadata.MetadataValue;
@@ -17,8 +18,40 @@ class BukkitCreatureSpawnerStub implements CreatureSpawner {
     private EntityType creatureType;
 
     @Override
-    public void setCreatureTypeByName(String s) {
-        this.creatureType = EntityType.fromName(s);
+    public void setCreatureTypeByName(String creatureTypeName) {
+        this.creatureType = EntityType.fromName(creatureTypeName);
+    }
+
+    @Override
+    public void setCreatureTypeId(String creatureTypeId) {
+        this.creatureType = EntityType.fromName(creatureTypeId);
+    }
+
+    @Override
+    public String getCreatureTypeName() {
+        return creatureType == null ? null : creatureType.getName();
+    }
+
+    @Override
+    public String getCreatureTypeId() {
+        return creatureType == null ? null : creatureType.getName();
+    }
+
+    @Override
+    public CreatureType getCreatureType() {
+        if (creatureType == null) {
+            return null;
+        }
+        try {
+            return CreatureType.valueOf(creatureType.name());
+        } catch (IllegalArgumentException ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public void setCreatureType(CreatureType creatureType) {
+        this.creatureType = creatureType == null ? null : EntityType.fromName(creatureType.getName());
     }
 
     @Override
@@ -32,77 +65,12 @@ class BukkitCreatureSpawnerStub implements CreatureSpawner {
     }
 
     @Override
-    public String getCreatureTypeName() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public int getDelay() {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public void setDelay(int i) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public int getMinSpawnDelay() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setMinSpawnDelay(int i) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public int getMaxSpawnDelay() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setMaxSpawnDelay(int i) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public int getSpawnCount() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setSpawnCount(int i) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public int getMaxNearbyEntities() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setMaxNearbyEntities(int i) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public int getRequiredPlayerRange() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setRequiredPlayerRange(int i) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public int getSpawnRange() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setSpawnRange(int i) {
         throw new UnsupportedOperationException();
     }
 
